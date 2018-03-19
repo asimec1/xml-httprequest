@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>CD kolekcija</title>
+	<style>
+		body { margin: 2%; }
+	</style>
+<body>
+
+<h1>XMLHttpRequest Object</h1>
+
+<button type="button" onclick="loadDoc()">Dohvati XML</button>
+<br><br>
+<table class="table" id="cdcatalog"></table>
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      myFunction(this);
+    }
+  };
+  xhttp.open("GET", "cdcatalog_id.xml", true);
+  xhttp.send();
+}
+function myFunction(xml) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr><th>IZVOĐAČ</th><th>NASLOV</th><th>GODINA</th></tr>";
+  var x = xmlDoc.getElementsByTagName("cd");
+  for (i = 0; i <x.length; i++) { 
+    table += "<tr><td>" +
+    x[i].getElementsByTagName("izvođač")[0].childNodes[0].nodeValue +
+    "</td><td>" +
+    x[i].getElementsByTagName("naslov")[0].childNodes[0].nodeValue +
+    "</td><td>" +
+    x[i].getElementsByTagName("godina")[0].childNodes[0].nodeValue +
+    "</td></tr>";
+  }
+  document.getElementById("cdcatalog").innerHTML = table;
+}
+</script>
+
+</body>
+</html>
